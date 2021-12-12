@@ -13,4 +13,4 @@ else ()
 endif ()
 
 add_executable(Proiect_POO
-        Source.cpp)
+        Source.cpp comanda.cpp comanda.h restaurant.cpp restaurant.h dish.cpp dish.h user.cpp user.h exceptii.cpp exceptii.h persoana.cpp persoana.h sofer.cpp sofer.h)
