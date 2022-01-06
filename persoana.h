@@ -14,7 +14,7 @@ public:
 
     persoana(const std::string &nume, const std::string &prenume);
 
-    virtual void afisare() = 0;
+    virtual void afisare(std::ostream &out) const = 0;
 
     friend std::ostream &operator<<(std::ostream &out, const persoana &p);
 

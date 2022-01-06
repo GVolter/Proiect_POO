@@ -3,19 +3,23 @@
 
 #include "restaurant.h"
 #include "user.h"
-#include "algorithm"
+#include <algorithm>
 
 class comanda {
-    int nr_comanda;
+protected:
+    int id;
+    static int id_max;
     std::vector<dish> lista;
     restaurant res;
     std::shared_ptr<user> u;
 public:
-    comanda(int nrComanda, const restaurant &res, std::shared_ptr<user> &u);
+    comanda() = default;
 
-    const int &getNrComanda() const;
+    comanda(const restaurant &res, const std::shared_ptr<user> &u);
 
-    void afiseaza_meniu();
+    const int &getId() const;
+
+    void selecteaza_restaurant();
 
     void adauga_comanda(const dish &d, int nr_buc);
 
@@ -25,7 +29,7 @@ public:
 
     double pret_total() const;
 
-    void plaseaza_com();
+    void plaseaza_com(int optiune);
 
     friend std::ostream &operator<<(std::ostream &out, const comanda &com);
 

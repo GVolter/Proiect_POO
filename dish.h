@@ -22,7 +22,7 @@ public:
 
     friend std::ostream &operator<<(std::ostream &out, const dish &dish);
 
-    ~dish() = default;
+    virtual ~dish() = default;
 };
 
 

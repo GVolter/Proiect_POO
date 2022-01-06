@@ -5,13 +5,17 @@
 #include "comanda.h"
 
 class sofer : public persoana {
-    static int nr_comenzi;
+    int nr_comenzi = 0;
+    int varsta = 0;
+    std::string vehicul;
 public:
-    sofer(const std::string &nume, const std::string &prenume);
+    sofer() = default;
 
-    void afisare() override;
+    void afisare(std::ostream &out) const override;
 
-    int comanda_preluata(const comanda &c);
+    int preia_comanda(const comanda &c);
+
+    friend class sofer_builder;
 
     ~sofer() override = default;
 };

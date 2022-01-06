@@ -12,6 +12,6 @@ persoana::persoana(const std::string &nume, const std::string &prenume) : nume(n
 }
 
 std::ostream &operator<<(std::ostream &out, const persoana &p) {
-    out << p.nume << " " << p.prenume << std::endl;
+    p.afisare(out);
     return out;
 }

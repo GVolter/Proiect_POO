@@ -4,8 +4,9 @@
 #include "persoana.h"
 
 class user : public persoana {
+protected:
     std::string username;
-    static std::string token;
+    std::string token;
 
 public:
     user() = default;
@@ -14,13 +15,17 @@ public:
 
     const std::string &getUsername() const;
 
-    static void connect();
+    void connect();
 
     void disconnect();
 
-    void afisare() override;
+    void afisare(std::ostream &out) const override;
 
-    static void check_connection();
+    void check_connection() const;
+
+    bool loggedIn() const;
+
+    virtual void plata(int optiune) = 0;
 
     ~user() override = default;
 };

@@ -1,11 +1,12 @@
 #include "user.h"
 #include "exceptii.h"
-#include <regex>
 
-std::string user::token;
-
-user::user(const std::string &nume, const std::string &prenume, const std::string &username)
-        : persoana(nume, prenume), username(username) {}
+user::user(const std::string &nume, const std::string &prenume, const std::string &username) : persoana(nume, prenume),
+                                                                                               username(username) {
+    this->nume = nume;
+    this->prenume = prenume;
+    this->username = username;
+}
 
 const std::string &user::getUsername() const {
     return username;
@@ -20,17 +21,24 @@ void user::disconnect() {
     std::cout << "Utilizatorul " << username << " s-a deconectat.\n" << std::endl;
 }
 
-void user::check_connection() {
+void user::check_connection() const {
     if (token != "ok")
         throw eroare_connect();
 }
 
-void user::afisare() {
+void user::afisare(std::ostream &out) const {
     if (token.empty())
-        std::cout << "Utilizatorul " << username << " (" << prenume << " " << nume << ") nu este conectat.\n"
-                  << std::endl;
+        out << "Utilizatorul " << username << " (" << prenume << " " << nume << ") nu este conectat.\n"
+            << std::endl;
     else
-        std::cout << "Utilizatorul " << username << " (" << prenume << " " << nume << ") este conectat.\n"
-                  << std::endl;
+        out << "Utilizatorul " << username << " (" << prenume << " " << nume << ") este conectat.\n"
+            << std::endl;
+}
+
+bool user::loggedIn() const {
+    if (token == "ok")
+        return true;
+    else
+        return false;
 }
 

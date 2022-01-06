@@ -2,21 +2,27 @@
 #include <vector>
 #include "dish.h"
 #include "restaurant.h"
-#include "user.h"
 #include "comanda.h"
 #include "sofer.h"
+#include "dish_factory.h"
+#include "persoana_fizica.h"
+#include "persoana_juridica.h"
+#include "sofer_builder.h"
 
 int main() {
-    dish d1{"Pizza Margherita", 21};
-    dish d2{"Pizza Capriciosa", 23.5};
-    dish d3{"Paste Carbonara", 29};
-    dish d4{"Ciorba de perisoare", 13};
+    dish d1 = dish_factory::pizza();
+    dish d2 = dish_factory::paste();
+    dish d3 = dish_factory::ciorba();
+    dish d4 = dish_factory::tocanita();
+    dish d5 = dish_factory::sarmale();
 
-    restaurant r1{"Ceva"};
+
+    restaurant r1{"La Ion"};
     restaurant r2{"La Maria"};
 
     r1.adauga(d1);
     r1.adauga(d2);
+    r1.adauga(d5);
     r2.adauga(d3);
     r2.adauga(d4);
 
@@ -33,38 +39,38 @@ int main() {
 
     std::cout << "-----------------------\n" << std::endl;
 
-    sofer s1{"Dumitrache", "Dragos"};
+    sofer_builder s;
+    sofer s1 = s.nume("Dumitrache").prenume("Dragos").vehicul("bicicleta").build();
 
-    auto u1 = std::make_shared<user>("Vasile", "Ion", "test");
-    u1->connect();
-    u1->afisare();
+    auto pj1 = std::make_shared<persoana_juridica>("Vasile", "Ion", "test");
+    pj1->connect();
+    std::cout << *pj1;
 
-    comanda com1{123, r1, u1};
+    comanda com1{r1, pj1};
+    com1.selecteaza_restaurant();
+    com1.adauga_comanda(d2, 3);
+    com1.adauga_comanda(d1, 1);
+    std::cout << com1;
+    com1.elimina_comanda("Paste", 2);
+    std::cout << com1;
     try {
-        com1.afiseaza_meniu();
-        com1.adauga_comanda(d2, 3);
-        com1.adauga_comanda(d1, 1);
-        std::cout << com1;
-        com1.elimina_comanda("Pizza Capriciosa", 2);
-        std::cout << com1;
-        com1.plaseaza_com();
+        com1.plaseaza_com(2);
     }
-    catch (eroare_connect &eroare) {
+    catch (eroare_optiune &eroare) {
         std::cout << eroare.what() << "\n";
     }
-
-    s1.comanda_preluata(com1);
-
-    u1->disconnect();
+    com1.plaseaza_com(1);
+    s1.preia_comanda(com1);
+    pj1->disconnect();
 
     std::cout << "-------------------------///-----------------------------\n" << std::endl;
 
-    auto u2 = std::make_shared<user>("Mircea", "Marin", "testulet");
-    u2->afisare();
+    auto pf1 = std::make_shared<persoana_fizica>("Mircea", "Marin", "testulet");
+    std::cout << *pf1;
 
     try {
-        comanda com2{321, r2, u2};
-        com2.afiseaza_meniu();
+        comanda com2{r2, pf1};
+        com2.selecteaza_restaurant();
         com2.adauga_comanda(d3, 1);
         std::cout << com2;
     }
@@ -75,7 +81,7 @@ int main() {
     std::cout << "-------------------------///-----------------------------\n" << std::endl;
 
     try {
-        auto u3 = std::make_shared<user>("marin", "edsfg7", "teste");
+        auto pj2 = std::make_shared<persoana_juridica>("marin", "edsfg7", "teste");
     }
     catch (eroare_nume &eroare) {
         std::cout << eroare.what() << "\n";
@@ -83,21 +89,21 @@ int main() {
 
     std::cout << "-------------------------///-----------------------------\n" << std::endl;
 
-    u2->connect();
-    u2->afisare();
-    comanda com3{456, r2, u2};
+    pf1->connect();
+    std::cout << *pf1;
+    comanda com3{r2, pf1};
     try {
-        com3.afiseaza_meniu();
+        com3.selecteaza_restaurant();
         com3.adauga_comanda(d3, 1);
         std::cout << com3;
-        com3.plaseaza_com();
+        com3.plaseaza_com(2);
     }
     catch (eroare_connect &eroare) {
         std::cout << eroare.what() << "\n";
     }
 
-    s1.comanda_preluata(com3);
+    s1.preia_comanda(com3);
     std::cout << "-------------------------///-----------------------------\n" << std::endl;
-    s1.afisare();
+    std::cout << s1;
     return 0;
 }

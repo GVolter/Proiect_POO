@@ -13,11 +13,6 @@ public:
     explicit eroare_pret(double pret);
 };
 
-class eroare_nrComanda : public eroare {
-public:
-    explicit eroare_nrComanda(int nrComanda);
-};
-
 class eroare_nume : public eroare {
 public:
     eroare_nume();
@@ -26,6 +21,11 @@ public:
 class eroare_connect : public eroare {
 public:
     eroare_connect();
+};
+
+class eroare_optiune : public eroare {
+public:
+    eroare_optiune();
 };
 
 #endif //PROIECT_POO_EXCEPTII_H

@@ -1,6 +1,6 @@
 #include "dish.h"
 
-dish::dish(const std::string &nume, double pret) {
+dish::dish(const std::string &nume, double pret) : nume(nume), pret(pret) {
     this->nume = nume;
     this->pret = pret;
     if (pret < 0)

@@ -1,17 +1,22 @@
 #include "comanda.h"
 
-comanda::comanda(int nr_comanda, const restaurant &res, std::shared_ptr<user> &u) : nr_comanda(nr_comanda), res(res),
-                                                                                    u(u) {
-    if (nr_comanda < 0)
-        throw eroare_nrComanda(nr_comanda);
+int comanda::id_max = 1;
+
+comanda::comanda(const restaurant &res, const std::shared_ptr<user> &u) : id(id_max), res(res), u(u) {
+    this->res = res;
+    this->u = u;
+    id_max++;
 }
 
-void comanda::afiseaza_meniu() {
+const int &comanda::getId() const {
+    return id;
+}
+
+void comanda::selecteaza_restaurant() {
     u->check_connection();
     std::cout << u->getUsername() << " a selectat Restaurantul " << res.getNume() << ".\n\n    MENIU"
               << std::endl;
-    for (const dish &d: res.getMeniu())
-        std::cout << d;
+    res.afiseaza_meniu();
     std::cout << "\n";
 }
 
@@ -39,7 +44,6 @@ void comanda::elimina_comanda(const std::string &nume_dish, int nr_buc) {
 }
 
 double comanda::pret_total() const {
-    u->check_connection();
     double suma = 0.0;
     for (const dish &d: getLista()) {
         suma += d.getPret();
@@ -47,13 +51,15 @@ double comanda::pret_total() const {
     return suma;
 }
 
-void comanda::plaseaza_com() {
+void comanda::plaseaza_com(int optiune) {
     u->check_connection();
-    std::cout << "Comanda " << nr_comanda << " a fost plasata.\n" << std::endl;
+    std::cout << "Alege optiunea de plata:\n1. CARD\n2. CASH (doar pentru persoana fizica)\n" << std::endl;
+    u->plata(optiune);
+    std::cout << "Comanda " << id << " va fi livrata in cel mai scurt timp.\n" << std::endl;
 }
 
 std::ostream &operator<<(std::ostream &out, const comanda &com) {
-    out << "Comanda " << com.nr_comanda << " include: " << std::endl;
+    out << "Comanda " << com.id << " include: " << std::endl;
     for (const dish &d: com.getLista()) {
         out << "\t" << d.getNume() << " " << d.getPret() << " RON" << std::endl;
     }
@@ -61,6 +67,3 @@ std::ostream &operator<<(std::ostream &out, const comanda &com) {
     return out;
 }
 
-const int &comanda::getNrComanda() const {
-    return nr_comanda;
-}
