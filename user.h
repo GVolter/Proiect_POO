@@ -23,9 +23,9 @@ public:
 
     void check_connection() const;
 
-    bool loggedIn() const;
-
     virtual void plata(int optiune) = 0;
+
+    virtual double taxa_de_transport(double pret_total) = 0;
 
     ~user() override = default;
 };

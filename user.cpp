@@ -3,9 +3,6 @@
 
 user::user(const std::string &nume, const std::string &prenume, const std::string &username) : persoana(nume, prenume),
                                                                                                username(username) {
-    this->nume = nume;
-    this->prenume = prenume;
-    this->username = username;
 }
 
 const std::string &user::getUsername() const {
@@ -34,11 +31,3 @@ void user::afisare(std::ostream &out) const {
         out << "Utilizatorul " << username << " (" << prenume << " " << nume << ") este conectat.\n"
             << std::endl;
 }
-
-bool user::loggedIn() const {
-    if (token == "ok")
-        return true;
-    else
-        return false;
-}
-

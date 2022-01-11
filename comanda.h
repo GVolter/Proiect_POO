@@ -10,16 +10,15 @@ protected:
     int id;
     static int id_max;
     std::vector<dish> lista;
-    restaurant res;
     std::shared_ptr<user> u;
 public:
     comanda() = default;
 
-    comanda(const restaurant &res, const std::shared_ptr<user> &u);
+    comanda(const std::shared_ptr<user> &u);
 
     const int &getId() const;
 
-    void selecteaza_restaurant();
+    void selecteaza_restaurant(const restaurant &res);
 
     void adauga_comanda(const dish &d, int nr_buc);
 
@@ -28,6 +27,8 @@ public:
     std::vector<dish> getLista() const;
 
     double pret_total() const;
+
+    void optiune_plata();
 
     void plaseaza_com(int optiune);
 

@@ -10,6 +10,8 @@ public:
 
     void plata(int optiune) override;
 
+    double taxa_de_transport(double pret_total) override;
+
     ~persoana_fizica() override = default;
 };
 

@@ -15,11 +15,11 @@ public:
 
     const std::string &getNume() const;
 
-    const std::vector<dish> &getMeniu() const;
-
     void adauga(const dish &d);
 
     void afiseaza_meniu() const;
+
+    friend bool operator==(const restaurant &lhs, const restaurant &rhs);
 
     friend std::ostream &operator<<(std::ostream &out, const restaurant &restaurant);
 

@@ -13,4 +13,4 @@ else ()
 endif ()
 
 add_executable(Proiect_POO
-        Source.cpp comanda.cpp comanda.h restaurant.cpp restaurant.h dish.cpp dish.h user.cpp user.h exceptii.cpp exceptii.h persoana.cpp persoana.h sofer.cpp sofer.h persoana_fizica.cpp persoana_fizica.h persoana_juridica.cpp persoana_juridica.h dish_factory.cpp dish_factory.h sofer_builder.cpp sofer_builder.h)
+        Source.cpp comanda.cpp comanda.h restaurant.cpp restaurant.h dish.cpp dish.h user.cpp user.h exceptii.cpp exceptii.h persoana.cpp persoana.h sofer.cpp sofer.h persoana_fizica.cpp persoana_fizica.h persoana_juridica.cpp persoana_juridica.h dish_factory.cpp dish_factory.h sofer_builder.cpp sofer_builder.h template.cpp template.h)

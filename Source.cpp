@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include "dish.h"
 #include "restaurant.h"
 #include "comanda.h"
@@ -8,6 +7,7 @@
 #include "persoana_fizica.h"
 #include "persoana_juridica.h"
 #include "sofer_builder.h"
+#include "template.h"
 
 int main() {
     dish d1 = dish_factory::pizza();
@@ -19,6 +19,15 @@ int main() {
 
     restaurant r1{"La Ion"};
     restaurant r2{"La Maria"};
+    restaurant r3{"Mamma mia"};
+
+    baza_de_date<dish> bd_dish;
+    bd_dish.adauga(d1);
+    bd_dish.adauga(d2);
+    bd_dish.adauga(d3);
+    bd_dish.adauga(d4);
+    bd_dish.adauga(d5);
+    bd_dish.afiseaza_tabel();
 
     r1.adauga(d1);
     r1.adauga(d2);
@@ -26,16 +35,14 @@ int main() {
     r2.adauga(d3);
     r2.adauga(d4);
 
-    std::vector<restaurant> restaurante;
+    baza_de_date<restaurant> bd_r;
+    bd_r.adauga(r1);
+    bd_r.adauga(r2);
+    bd_r.sterge(r3);
 
-    restaurante.push_back(r1);
-    restaurante.push_back(r2);
+    std::cout << "\n---Lista restaurante---" << std::endl;
 
-    std::cout << "---Lista restaurante---" << std::endl;
-
-    for (const auto &i: restaurante) {
-        std::cout << i << std::endl;
-    }
+    bd_r.afiseaza_tabel();
 
     std::cout << "-----------------------\n" << std::endl;
 
@@ -46,20 +53,28 @@ int main() {
     pj1->connect();
     std::cout << *pj1;
 
-    comanda com1{r1, pj1};
-    com1.selecteaza_restaurant();
-    com1.adauga_comanda(d2, 3);
-    com1.adauga_comanda(d1, 1);
-    std::cout << com1;
-    com1.elimina_comanda("Paste", 2);
-    std::cout << com1;
+    comanda com1{pj1};
+
     try {
-        com1.plaseaza_com(2);
+        com1.selecteaza_restaurant(r1);
+        com1.adauga_comanda(d2, 3);
+        com1.adauga_comanda(d1, 1);
+        std::cout << com1;
+        com1.elimina_comanda("Paste", 2);
+        com1.elimina_comanda("Paste Bolognese", 2);
+        std::cout << com1;
+        try {
+            com1.plaseaza_com(4);
+        }
+        catch (eroare_optiune &eroare) {
+            std::cout << eroare.what() << "\n";
+        }
+        com1.optiune_plata();
+        com1.plaseaza_com(1);
     }
-    catch (eroare_optiune &eroare) {
+    catch (eroare_connect &eroare) {
         std::cout << eroare.what() << "\n";
     }
-    com1.plaseaza_com(1);
     s1.preia_comanda(com1);
     pj1->disconnect();
 
@@ -69,8 +84,8 @@ int main() {
     std::cout << *pf1;
 
     try {
-        comanda com2{r2, pf1};
-        com2.selecteaza_restaurant();
+        comanda com2{pf1};
+        com2.selecteaza_restaurant(r2);
         com2.adauga_comanda(d3, 1);
         std::cout << com2;
     }
@@ -91,11 +106,12 @@ int main() {
 
     pf1->connect();
     std::cout << *pf1;
-    comanda com3{r2, pf1};
+    comanda com3{pf1};
     try {
-        com3.selecteaza_restaurant();
+        com3.selecteaza_restaurant(r2);
         com3.adauga_comanda(d3, 1);
         std::cout << com3;
+        com3.optiune_plata();
         com3.plaseaza_com(2);
     }
     catch (eroare_connect &eroare) {

@@ -6,11 +6,13 @@
 #include "exceptii.h"
 
 class dish {
-protected:
     std::string nume;
     double pret;
+    bool vegetarian;
+    double cantitate;
+    std::string categorie;
 public:
-    dish(const std::string &nume, double pret);
+    dish(const std::string &nume, double pret, bool vegetarian, double cantitate, const std::string &categorie);
 
     const std::string &getNume() const;
 
@@ -20,9 +22,11 @@ public:
 
     dish &operator=(const dish &C);
 
+    friend bool operator==(const dish &lhs, const dish &rhs);
+
     friend std::ostream &operator<<(std::ostream &out, const dish &dish);
 
-    virtual ~dish() = default;
+    ~dish() = default;
 };
 
 
